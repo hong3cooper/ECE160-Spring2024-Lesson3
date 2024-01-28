@@ -1,0 +1,1556 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>CS102B - Lesson 2 - Types, Variables, Operators</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<h1>ECE160B - Lesson 3</h1>
+					<h3>Switch, Loops, Basic Arrays, Input/Output, Basic Functions</h3>
+					<p>
+						<small>Professor Hong</small>
+					</p>
+					
+				</section>
+						
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+						## Review & Questions
+						</textarea>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Switch Statements
+							* Another way to write if, else-if, and else
+							* Each const-expr is a constant integer value
+							* Each case is like an if, default is like the else
+							* Limited by the number of chars/ints
+							```
+							switch(expression) {
+								case const-expr: statements
+								case const-expr: statements
+								default: statements
+							}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Switch Statement Example
+							```
+#include <stdio.h>
+
+// This is a simplified version of the example on K&R pg. 59
+// Loops and arrays are removed from this example
+// We will build upon this example as we continue
+int main()
+{
+    int c, i, nwhite, nother, ndigit;
+
+    c = getchar();
+    switch (c)
+    {
+        case '0': // same as 48
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+            ndigit++;
+            break;
+        case ' ':
+        case '\n':
+        case '\t':
+            nwhite++;
+            break;
+        default:
+            nother++;
+            break;
+    }
+    printf("ndigits = %d", ndigit);
+    printf(", white space = %d, other = %d\n", nwhite, nother);
+
+
+    return 0;
+}
+							```
+							* break causes the switch to end, otherwise, it will continue to the next case
+							* echo $? will show the result of the program
+						</script>
+					</section>
+					
+				</section>
+				
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+						## Bitwise Operators
+						</textarea>
+					</section>
+					
+					<section data-markdown>
+						<textarea data-template>
+						## Bitwise Operators
+						* <code>&</code> -- bitwise AND
+						* <code>|</code> -- bitwise inclusive OR
+						* <code>^</code> -- bitwise exclusive OR
+						* <code><<</code> -- left shift
+						* <code>>></code> -- right shift
+						* <code>~</code> -- one's complement (unary)
+						</textarea>
+					</section>
+					
+					<section data-markdown>
+						<textarea data-template>
+						## Bitwise Operators Example  
+						```
+#include <stdio.h>
+
+int main()
+{
+    printf("5 & 4 = %d\n", 5 & 4);
+    printf("5 | 4 = %d\n", 5 | 4);
+    printf("5 ^ 4 = %d\n", 5 ^ 4);
+    printf("5 << 2 = %d\n", 5 << 2);
+    printf("12 >> 2 = %d\n", 12 >> 2);
+    printf("~5 = %d\n", ~5);
+    // Note 2's complement
+    // 5 is 0000...0101
+    // Doing on's complement, we have
+    // ~5 is 1111...1010
+    // which is MIN+sum(2^n) where n excludes n=0 and n=2
+    // Or simpler: -8 + 0 + 2 + 0
+    return 0;
+}
+						```
+						</textarea>
+					</section>
+				</section>
+				
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+						## Basic Input/Output
+						</textarea>
+					</section>
+					
+					<section data-markdown>
+						<textarea data-template>
+						## getchar
+						* gets **one** character from the command line  
+							
+						```
+#include <stdio.h>
+
+int main()
+{
+    char c = getchar();
+    putchar(c);
+    printf("%c", c);
+
+    return 0;
+}
+						```
+						</textarea>
+					</section>
+				</section>
+					
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Loops
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## While Loops
+							* Continues to run until the expression inside the while is terminated
+							* Commonly used with some form of counter
+							```
+							expr1;
+							while (expr2)
+							{
+								statement
+								expr3;
+							}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## While Loops Example
+							
+							```
+#include <stdio.h>
+
+/* K&R pg. 11
+ * print Fahrenheit-Celsius table 
+ * for fahr = 0, 20, ..., 300 */
+
+int main()
+{
+    float fahr, celsius;
+    int lower, upper, step;
+
+    lower = 0; /* lower limit of temperature table */
+    upper = 300; /* upper limit */
+    step = 20; /* step size*/
+
+    fahr = lower;
+    while (fahr <= upper)
+    {
+        celsius = 5.0 * (fahr-32.0) / 9.0;
+        printf("%3.0f %6.1f\n", fahr, celsius);
+        fahr = fahr + step;
+    }
+    return 0;
+}							```
+							
+							* Note that fahr increases by 20 per iteration.
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Infinite Loop
+							```
+#include <stdio.h>
+
+int main()
+{
+    int i = 0;
+    while (i >= 0)
+    {
+        printf("This is an infinite loop! (or is it?) i=%d\n", i);
+        i++;
+    }
+    return 0;
+}
+
+							```
+							* How will you make the above loop truly infinite?
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## For Loops
+							* Similar to while, except in one line
+							
+							```
+							for (expr1; expr2; expr3)
+								statement
+							```
+							
+							* A typical expr3 is i++
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## For Loops Example
+							
+							```
+#include <stdio.h>
+
+// K&R pg. 13
+// Print Fahrenheit-Celsius table
+int main()
+{
+    int fahr;
+    for (fahr = 0; fahr <= 300; fahr += 20)
+    {
+        printf("%3d %6.1f\n", fahr, (5.0/9.0)*(fahr-32));
+    }
+
+    return 0;
+}
+							```
+						</script>
+					</section>
+					
+				</section>
+				
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Basic Arrays
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Declaring and Accessing Arrays
+							```
+#include <stdio.h>
+
+int main()
+{
+    int intArr[5];
+    intArr[0] = 0;
+    intArr[1] = 1;
+    intArr[2] = 2;
+    intArr[3] = 3;
+    intArr[4] = 4;
+    printf("%d %d %d %d %d\n",
+           intArr[0], intArr[1], intArr[2],
+           intArr[3], intArr[4]);
+
+    char charArr[3] = {'A', 'B', 'C'};
+    for (int ii=0; ii<3; ii++)
+    {
+        printf("%c ", charArr[ii]);
+    }
+    printf("\n");
+    return 0;
+}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Count Digits, White Space, and Others
+							```
+#include <stdio.h>
+
+// K&R pg. 22
+// count digits, white space, others
+
+int main()
+{
+    int c, i, nwhite, nother;
+    int ndigit[10];
+
+    nwhite = nother = 0;
+    for (i = 0; i < 10; ++i)
+    {
+        ndigit[i] = 0;
+    }
+
+    while ((c = getchar()) != EOF)
+    {
+        if (c >= '0' && c <= '9')
+            ++ndigit[c-'0'];
+        else if (c == ' ' || c == '\n' || c == '\t')
+            ++nwhite;
+        else
+            ++nother;
+    }
+
+    printf("digits =");
+    for (i = 0; i < 10; ++i)
+        printf(" %d", ndigit[i]);
+    printf(", white space = %d, other = %d\n",
+        nwhite, nother);
+
+    return 0;
+}
+							```
+							
+							* Run the program against itself with <code>./a.exe < count.c</code>
+							* How would you convert this to using a switch statement?
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## atoi
+							```
+#include <stdio.h>
+#include <ctype.h>
+
+// K&R pg. 61
+// atoi: convert s to integer; version 1
+int main()
+{
+    char s[] = "-10";
+
+    int i, n, sign;
+
+    for (i = 0; isspace(s[i]); i++) // skip white space
+        ;
+    sign = (s[i] == '-') ? -1 : 1;
+    if (s[i] == '+' || s[i] == '-') // skip sign
+        i++;
+    for (n = 0; isdigit(s[i]); i++)
+        n = 10 * n + (s[i] - '0');
+
+    int result = sign * n;
+    printf("%d", result);
+    return 0;
+}
+							```
+							
+							* Note that the functionality is living in main.
+							* Note that a lot of curly braces are not necessary.
+							* How would you modify this to use user input using getchar()?
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## atoi with getchar()
+							```
+#include <stdio.h>
+#include <ctype.h>
+
+// K&R pg. 61
+// atoi: convert s to integer; version 1
+int main()
+{
+    char s[5]; // needs a const
+    char c = getchar();
+    int cidx = 0;
+    while (c != '\n')
+    {
+        s[cidx] = c;
+        c = getchar();
+        cidx++;
+    }
+
+
+    int i, n, sign;
+
+    for (i = 0; isspace(s[i]); i++) // skip white space
+        ;
+    sign = (s[i] == '-') ? -1 : 1;
+    if (s[i] == '+' || s[i] == '-') // skip sign
+        i++;
+    for (n = 0; isdigit(s[i]); i++)
+        n = 10 * n + (s[i] - '0');
+
+    int result = sign * n;
+    printf("%d", result);
+    return 0;
+}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Shell Sort
+							```
+#include <stdio.h>
+
+// K&R pg. 62
+// shellsort: sort v[0]...v[n-1] into increasing order
+int main()
+{
+    int v[10] = {4, 6, 2, 1, 3, 5, 7, 9, 8, 0};
+    int n = 10;
+    int gap, i, j, temp;
+    for (gap = n/2; gap > 0; gap /= 2)
+        for (i = gap; i < n; i++)
+            for (j=i-gap; j>=0 && v[j]>v[j+gap]; j-=gap)
+            {
+                temp = v[j];
+                v[j] = v[j+gap];
+                v[j+gap] = temp;
+            }
+
+    printf("Sorted: ");
+    for (int ii=0; ii<n; ii++)
+        printf("%d ", v[ii]);
+
+    return 0;
+}
+							```
+							
+							* Note the nested loops.
+							* You will learn more about sorts in DSA I.
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Reverse
+							```
+#include <stdio.h>
+#include <string.h>
+
+// K&R pg. 62
+// reverse: reverse string s in place
+
+int main()
+{
+    char s[] = "ECE160";
+
+    int c, i, j;
+    for (i=0, j=strlen(s)-1; i<j; i++, j--)
+    {
+        c = s[i];
+        s[i] = s[j];
+        s[j] = c;
+    }
+    printf("%s", s);
+    return 0;
+}
+							```
+							
+							* Note the complex expressions in the for loop.
+							* Strings are just arrays of chars!
+						</script>
+					</section>
+					
+				</section>
+				
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## More Loops!
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Do While
+							* The do will always execute first
+							* This loop will end when the while part is not satisfied.
+							
+							```
+							do
+							    statement
+							while (expression);
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Do While Example
+							```
+#include <stdio.h>
+#include <string.h>
+
+// K&R pg. 64
+// itoa: convert n to characters in s
+
+int main()
+{
+    int n = -77;
+    char s[10];
+
+    int idx, sign;
+    if ((sign = n) < 0) // record sign
+        n = -n;         // make n positive
+    idx = 0;
+    do {
+        s[idx++] = n % 10 + '0';
+    } while ((n /= 10) > 0);
+    if (sign < 0)
+        s[idx++] = '-';
+    s[idx] = '\0';
+
+    // reverse s
+    int c, i, j;
+    for (i=0, j=strlen(s)-1; i<j; i++, j--)
+    {
+        c = s[i];
+        s[i] = s[j];
+        s[j] = c;
+    }
+    printf("%s", s);
+    return 0;
+}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Break & Continue
+							* <code>break</code> -- allows you to exist a for, while, or do loop early
+							* <code>continue</code> -- allows the next iteration of the loop to execute
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Break Example
+							```
+#include <stdio.h>
+#include <string.h>
+
+// K&R pg. 65
+// trim: remove trailing blanks, tabs, newlines
+int main()
+{
+    char s[] = "HELLO   ";
+    int n;
+    for (n = strlen(s)-1; n >= 0; n--)
+        if (s[n] != ' ' && s[n] != '\t' && s[n] != '\n')
+            break;
+    s[n+1] = '\0';
+    printf("%d\n", n);
+    printf("%s.", s);
+
+    return 0;
+}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Continue Example
+							```
+#include <stdio.h>
+
+// skip printing a number with continue
+
+int main()
+{
+    for (int ii=0; ii<=10; ii++)
+    {
+        if (ii==7)
+            continue;
+        printf("%d ", ii);
+    }
+
+    return 0;
+}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## goto
+							* **DO NOT USE**
+							* Allows you to go to other lines in your program directly
+						</script>
+					</section>
+					
+				</section>
+				
+				
+				
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Input & Output
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## scanf
+							* Don't worry about what the syntax means for now  
+							
+							```
+#include <stdio.h>
+
+// K&R pg. 158
+// rudimentary calculator
+
+int main()
+{
+    double sum, v;
+    sum = 0;
+    while (scanf("%lf", &v) == 1)
+        printf("\t%.2f\n", sum+=v);
+
+    return 0;
+}
+							```
+						</script>
+					</section>
+					
+				</section>
+				
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Basic Functions
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Arguments & Return Values
+							* Functions splits up the main function to more readable chunks
+							* Generally, you don't want functions to be too large (<100 lines)
+							* Functions are in the form:
+							```
+							return-type function-name(parameter declarations, if any)
+							{
+								declarations
+								statements
+								return
+							}
+							```
+							
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Example of Using A Function
+							```
+#include <stdio.h>
+
+// K&R pg. 24-25
+// power function
+
+// Function prototype at the beginning
+int power(int m, int n);
+
+int main()
+{
+    int i;
+    for (i=0; i<10; ++i)
+        printf("%d %d %d\n", i, power(2,i), power(-3,i));
+    return 0;
+}
+
+// power: raise base to n-th power; n >= 0
+int power(int base, int n)
+{
+    int i, p;
+    p = 1;
+    for (i=1; i<=n; ++i)
+        p = p * base;
+    return p;
+}
+							```
+						</script>
+					</section>
+					
+				</section>
+				
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Tic-Tac-Toe
+							* Example by Prof. Sable
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Requirements
+							* Have a tic-tac-toe board
+							* Allow a user to choose to play first or second
+							* Have a computer player to choose logical moves
+							* Determine the win/lose/tie conditions
+							* Ask a player if they want to play again
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Function Prototypes
+							```
+void init_board(void);
+void draw_board(void);
+int user_first(void);
+int play_again(void);
+int symbol_won(char);
+int find_win(char);
+int middle_open(void);
+int find_corner(void);
+int find_side(void);
+void computer_move(void);
+int square_valid(int);
+void player_move(void);
+void play_game(void);
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Global Variables
+							```
+char board[3][3];
+char computer, user;
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Main
+							```
+/* 
+ * Initialize the board, ask who goes first, play a game,
+ * ask if user wants to play again.
+ */
+int main(void)
+{
+  while(1)
+  {
+    init_board();
+    if (user_first())
+    {
+      computer = 'O';
+      user = 'X';
+    }
+    else
+    {
+      computer = 'X';
+      user = 'O';
+    }
+    play_game();
+    if (!play_again())
+      break;
+  }
+  return 0;
+}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Board Functions
+							```
+/* Make sure board starts off empty. */
+void init_board(void)
+{
+  int row, col;
+
+  for (row = 0; row < 3; row++)
+    for (col = 0; col < 3; col++)
+      board[row][col] = ' ';
+
+  return;
+}
+
+/* Display the board to standard output. */
+void draw_board(void)
+{
+  int row, col;
+
+  printf("\n");
+  for (row = 0; row < 3; row++)
+  {
+    printf("   *   *   \n");
+    printf(" %c * %c * %c \n",
+	   board[row][0], board[row][1], board[row][2]);
+    printf("   *   *   \n");
+    if (row != 2)
+      printf("***********\n");
+  }
+  printf("\n");
+
+  return;
+}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Game Flow Functions
+							```
+/*
+ * Ask if user wants to go first.
+ * Returns 1 if yes, 0 if no.
+ */
+int user_first(void)
+{
+  char response;
+
+  printf("Do you want to go first? (y/n) ");
+  do
+  {
+    response = getchar();
+  } while ((response != 'y') && (response != 'Y') &&
+	   (response != 'n') && (response != 'N'));
+
+  if ((response == 'y') || (response == 'Y'))
+    return 1;
+  else
+    return 0;
+}
+
+/*
+ * Ask if user wants to play again.
+ * Returns 1 if yes, 0 if no.
+ */
+int play_again(void)
+{
+  char response;
+
+  printf("Do you want to play again? (y/n) ");
+  do
+  {
+    response = getchar();
+  } while ((response != 'y') && (response != 'Y') &&
+	   (response != 'n') && (response != 'N'));
+
+  if ((response == 'y') || (response == 'Y'))
+    return 1;
+  else
+    return 0;
+}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Gameplay
+							```
+
+/* Loop through 9 turns or until somebody wins. */
+void play_game(void)
+{
+  int turn;
+
+  for (turn = 1; turn <= 9; turn++)
+  {
+    /* Check if turn is even or odd 
+       to determine which player should move. */
+    if (turn % 2 == 1)
+    {
+      if (computer == 'X')
+        computer_move();
+      else
+        player_move();
+    }
+    else
+    {
+      if (computer == 'O')
+        computer_move();
+      else
+        player_move();
+    }
+
+    draw_board();
+
+    if (symbol_won(computer)) {
+      printf("\nI WIN!!!\n\n");
+      return;
+    }
+    else if (symbol_won(user)) {
+      printf("\nCongratulations, you win!\n\n");
+      return;
+    }
+  }
+
+  printf("\nThe game is a draw.\n\n");
+  return;
+}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Player Move Functions
+							```
+/* Check if the given square is valid and empty. */
+int square_valid(int square)
+{
+  int row, col;
+
+  row = (square - 1) / 3;
+  col = (square - 1) % 3;
+
+  if ((square >= 1) && (square <= 9))
+  {
+    if (board[row][col] == ' ')
+      return 1;
+  }
+
+  return 0;
+}
+
+
+/* Have the user choose a move. */
+void player_move(void)
+{
+  int square;
+  int row, col;
+
+  do
+  {
+    printf("Enter a square: ");
+    scanf("%d", &square);
+  } while (!square_valid(square));
+
+  row = (square - 1) / 3;
+  col = (square - 1) % 3;
+
+  board[row][col] = user;
+
+  return;
+}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Computer Move Functions
+							```
+/*
+ * If middle square is empty, return 5;
+ * otherwise return 0.
+ */
+int middle_open(void)
+{
+  if (board[1][1] == ' ')
+    return 5;
+  else
+    return 0;
+}
+
+/* 
+ * Return the number of an empty corner, if one exists;
+ * otherwise return 0.
+ */
+int find_corner(void)
+{
+  if (board[0][0] == ' ')
+    return 1;
+  if (board[0][2] == ' ')
+    return 3;
+  if (board[2][0] == ' ')
+    return 7;
+  if (board[2][2] == ' ')
+    return 9;
+
+  return 0;
+}
+
+/*
+ * Return the number of an empty side square, if one exists;
+ * otherwise return 0.
+ */
+int find_side(void)
+{
+  if (board[0][1] == ' ')
+    return 2;
+  if (board[1][0] == ' ')
+    return 4;
+  if (board[1][2] == ' ')
+    return 6;
+  if (board[2][1] == ' ')
+    return 8;
+
+  return 0;
+}
+
+/* Choose a move for the computer. */
+void computer_move(void)
+{
+  int square;
+  int row, col;
+
+  /* Use first strategy rule that returns valid square */
+  square = find_win(computer);
+  if (!square)
+    square = find_win(user);
+  if (!square)
+    square = middle_open();
+  if (!square)
+    square = find_corner();
+  if (!square)
+    square = find_side();
+
+  printf("\nI am choosing square %d!\n", square);
+
+  row = (square - 1) / 3;
+  col = (square - 1) % 3;
+
+  board[row][col] = computer;
+
+  return;
+}
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Win Condition
+							```
+
+/* Check if the given symbol has already won the game. */
+int symbol_won(char symbol)
+{
+  int row, col;
+
+  for (row = 0; row < 3; row++)
+  {
+    if ((board[row][0] == symbol) &&
+	(board[row][1] == symbol) &&
+	(board[row][2] == symbol))
+      return 1;
+  }
+
+  for (col = 0; col < 3; col++)
+  {
+    if ((board[0][col] == symbol) &&
+	(board[1][col] == symbol) &&
+	(board[2][col] == symbol))
+      return 1;
+  }
+
+  if ((board[0][0] == symbol) &&
+      (board[1][1] == symbol) &&
+      (board[2][2] == symbol))
+    return 1;
+
+  if ((board[0][2] == symbol) &&
+      (board[1][1] == symbol) &&
+      (board[2][0] == symbol))
+    return 1;
+
+  return 0;
+}
+
+/* 
+ * Find a win, if any, for the given symbol.
+ * If a winning square exists, return the square;
+ * otherwise, return 0.
+ */
+int find_win(char symbol)
+{
+  int square, row, col;
+  int result = 0;
+
+  /*
+   * Loop through the 9 squares.
+   * For each, if it is empty, fill it in with the given
+   * symbol and check if this has resulted in a win.
+   * If so, keep track of this square in result.
+   * Either way, reset the square to empty afterwards.
+   * After the loop, if one or more wins have been found,
+   * the last will be recorded in result.
+   * Otherwise, result will still be 0.
+   */
+  for (square = 1; square <= 9; square++)
+  {
+    row = (square - 1) / 3;
+    col = (square - 1) % 3;
+
+    if (board[row][col] == ' ')
+    {
+      board[row][col] = symbol;
+      if (symbol_won(symbol))
+	result = square;
+      board[row][col] = ' ';
+    }
+  }
+
+  return result;
+}
+
+							```
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## Full Program
+							```
+/*
+ * This program plays Tic-Tac-Toe against the user!
+ * The program uses a specified, not-perfect strategy.
+ * The code uses only basic programming concepts.
+ * Written by: Carl Sable
+ */
+
+#include <stdio.h>
+
+void init_board(void);
+void draw_board(void);
+int user_first(void);
+int play_again(void);
+int symbol_won(char);
+int find_win(char);
+int middle_open(void);
+int find_corner(void);
+int find_side(void);
+void computer_move(void);
+int square_valid(int);
+void player_move(void);
+void play_game(void);
+
+char board[3][3];
+char computer, user;
+
+/* 
+ * Initialize the board, ask who goes first, play a game,
+ * ask if user wants to play again.
+ */
+int main(void)
+{
+  while(1)
+  {
+    init_board();
+    if (user_first())
+    {
+      computer = 'O';
+      user = 'X';
+    }
+    else
+    {
+      computer = 'X';
+      user = 'O';
+    }
+    play_game();
+    if (!play_again())
+      break;
+  }
+  return 0;
+}
+
+/* Make sure board starts off empty. */
+void init_board(void)
+{
+  int row, col;
+
+  for (row = 0; row < 3; row++)
+    for (col = 0; col < 3; col++)
+      board[row][col] = ' ';
+
+  return;
+}
+
+/* Display the board to standard output. */
+void draw_board(void)
+{
+  int row, col;
+
+  printf("\n");
+  for (row = 0; row < 3; row++)
+  {
+    printf("   *   *   \n");
+    printf(" %c * %c * %c \n",
+	   board[row][0], board[row][1], board[row][2]);
+    printf("   *   *   \n");
+    if (row != 2)
+      printf("***********\n");
+  }
+  printf("\n");
+
+  return;
+}
+
+/*
+ * Ask if user wants to go first.
+ * Returns 1 if yes, 0 if no.
+ */
+int user_first(void)
+{
+  char response;
+
+  printf("Do you want to go first? (y/n) ");
+  do
+  {
+    response = getchar();
+  } while ((response != 'y') && (response != 'Y') &&
+	   (response != 'n') && (response != 'N'));
+
+  if ((response == 'y') || (response == 'Y'))
+    return 1;
+  else
+    return 0;
+}
+
+/*
+ * Ask if user wants to play again.
+ * Returns 1 if yes, 0 if no.
+ */
+int play_again(void)
+{
+  char response;
+
+  printf("Do you want to play again? (y/n) ");
+  do
+  {
+    response = getchar();
+  } while ((response != 'y') && (response != 'Y') &&
+	   (response != 'n') && (response != 'N'));
+
+  if ((response == 'y') || (response == 'Y'))
+    return 1;
+  else
+    return 0;
+}
+
+/*
+ * If middle square is empty, return 5;
+ * otherwise return 0.
+ */
+int middle_open(void)
+{
+  if (board[1][1] == ' ')
+    return 5;
+  else
+    return 0;
+}
+
+/* 
+ * Return the number of an empty corner, if one exists;
+ * otherwise return 0.
+ */
+int find_corner(void)
+{
+  if (board[0][0] == ' ')
+    return 1;
+  if (board[0][2] == ' ')
+    return 3;
+  if (board[2][0] == ' ')
+    return 7;
+  if (board[2][2] == ' ')
+    return 9;
+
+  return 0;
+}
+
+/*
+ * Return the number of an empty side square, if one exists;
+ * otherwise return 0.
+ */
+int find_side(void)
+{
+  if (board[0][1] == ' ')
+    return 2;
+  if (board[1][0] == ' ')
+    return 4;
+  if (board[1][2] == ' ')
+    return 6;
+  if (board[2][1] == ' ')
+    return 8;
+
+  return 0;
+}
+
+/* Check if the given square is valid and empty. */
+int square_valid(int square)
+{
+  int row, col;
+
+  row = (square - 1) / 3;
+  col = (square - 1) % 3;
+
+  if ((square >= 1) && (square <= 9))
+  {
+    if (board[row][col] == ' ')
+      return 1;
+  }
+
+  return 0;
+}
+
+/* Check if the given symbol has already won the game. */
+int symbol_won(char symbol)
+{
+  int row, col;
+
+  for (row = 0; row < 3; row++)
+  {
+    if ((board[row][0] == symbol) &&
+	(board[row][1] == symbol) &&
+	(board[row][2] == symbol))
+      return 1;
+  }
+
+  for (col = 0; col < 3; col++)
+  {
+    if ((board[0][col] == symbol) &&
+	(board[1][col] == symbol) &&
+	(board[2][col] == symbol))
+      return 1;
+  }
+
+  if ((board[0][0] == symbol) &&
+      (board[1][1] == symbol) &&
+      (board[2][2] == symbol))
+    return 1;
+
+  if ((board[0][2] == symbol) &&
+      (board[1][1] == symbol) &&
+      (board[2][0] == symbol))
+    return 1;
+
+  return 0;
+}
+
+/* 
+ * Find a win, if any, for the given symbol.
+ * If a winning square exists, return the square;
+ * otherwise, return 0.
+ */
+int find_win(char symbol)
+{
+  int square, row, col;
+  int result = 0;
+
+  /*
+   * Loop through the 9 squares.
+   * For each, if it is empty, fill it in with the given
+   * symbol and check if this has resulted in a win.
+   * If so, keep track of this square in result.
+   * Either way, reset the square to empty afterwards.
+   * After the loop, if one or more wins have been found,
+   * the last will be recorded in result.
+   * Otherwise, result will still be 0.
+   */
+  for (square = 1; square <= 9; square++)
+  {
+    row = (square - 1) / 3;
+    col = (square - 1) % 3;
+
+    if (board[row][col] == ' ')
+    {
+      board[row][col] = symbol;
+      if (symbol_won(symbol))
+	result = square;
+      board[row][col] = ' ';
+    }
+  }
+
+  return result;
+}
+
+/* Choose a move for the computer. */
+void computer_move(void)
+{
+  int square;
+  int row, col;
+
+  /* Use first strategy rule that returns valid square */
+  square = find_win(computer);
+  if (!square)
+    square = find_win(user);
+  if (!square)
+    square = middle_open();
+  if (!square)
+    square = find_corner();
+  if (!square)
+    square = find_side();
+
+  printf("\nI am choosing square %d!\n", square);
+
+  row = (square - 1) / 3;
+  col = (square - 1) % 3;
+
+  board[row][col] = computer;
+
+  return;
+}
+
+/* Have the user choose a move. */
+void player_move(void)
+{
+  int square;
+  int row, col;
+
+  do
+  {
+    printf("Enter a square: ");
+    scanf("%d", &square);
+  } while (!square_valid(square));
+
+  row = (square - 1) / 3;
+  col = (square - 1) % 3;
+
+  board[row][col] = user;
+
+  return;
+}
+
+/* Loop through 9 turns or until somebody wins. */
+void play_game(void)
+{
+  int turn;
+
+  for (turn = 1; turn <= 9; turn++)
+  {
+    /* Check if turn is even or odd 
+       to determine which player should move. */
+    if (turn % 2 == 1)
+    {
+      if (computer == 'X')
+        computer_move();
+      else
+        player_move();
+    }
+    else
+    {
+      if (computer == 'O')
+        computer_move();
+      else
+        player_move();
+    }
+
+    draw_board();
+
+    if (symbol_won(computer)) {
+      printf("\nI WIN!!!\n\n");
+      return;
+    }
+    else if (symbol_won(user)) {
+      printf("\nCongratulations, you win!\n\n");
+      return;
+    }
+  }
+
+  printf("\nThe game is a draw.\n\n");
+  return;
+}
+							```
+						</script>
+					</section>
+					
+				</section>
+				
+				<section data-markdown>
+					<script type="text/template">
+						## Homework
+						<a href="https://classroom.github.com/a/08CsRYwG">
+							https://classroom.github.com/a/08CsRYwG
+						</a>
+					</script>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
